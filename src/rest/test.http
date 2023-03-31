@@ -1,0 +1,12 @@
+@baseUrl = http://localhost:9000
+
+### Process chat messages
+# @prompt text The text to be processed
+
+POST {{baseUrl}}/chat/process
+Accept: application/json
+Content-Type: application/json
+
+{
+  "text": "{{text}}"
+}

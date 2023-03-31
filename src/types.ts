@@ -2,6 +2,7 @@ import * as Logger from './logger/types'
 import * as Hass from './hass/types'
 import * as Conversational from './conversational/types'
 import * as OpenAI from './openai/types'
+import * as RestAPI from './rest/types'
 import * as Telegraf from './telegraf/types'
 import { NLP } from './nlp/types'
 
@@ -14,6 +15,7 @@ export interface Config {
   telegraf: Telegraf.TelegrafConfig
   load: <Key extends keyof Omit<Config, 'inject'>>(key: Key, value: Config[Key]) => Config[Key]
   openai: OpenAI.OpenAIConfig
+  restapi: RestAPI.RestAPIConfig
 }
 
 export interface AppContext {
@@ -25,6 +27,7 @@ export interface AppContext {
   nlp: NLP
   openai: OpenAI.OpenAIModule
   conversational: Conversational.ConversationalModule
+  restapi: RestAPI.RestAPIModule
 }
 
 export interface BotContext extends Telegraf.Context {

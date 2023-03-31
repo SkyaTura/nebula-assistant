@@ -9,6 +9,7 @@ import { setupTelegraf } from './telegraf';
 import { setupNLP } from './nlp';
 import { setupOpenAI } from './openai';
 import { setupConversational } from './conversational';
+import { setupRestAPI } from './rest';
 
 export const setup = async (modules: AppModule[]) => {
   const ctx = {
@@ -31,6 +32,7 @@ export const main = async () => setup([
   setupOpenAI,
   setupConversational,
   setupTelegraf,
+  setupRestAPI,
 ])
 
 main()
