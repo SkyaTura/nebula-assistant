@@ -5,11 +5,13 @@ export interface ConversationalHandler {
   (input: ConversationalRequest): Promise<ConversationalResponse | null | symbol>
 }
 
+export const createHandlers = <H extends Record<string, ConversationalHandler>>(handlers: H) => handlers
+
 export const setupConversational: AppModule = async (ctx) => {
   const logger = ctx.logger('conversational')
   const skipped = Symbol('skipped')
-  const handlers: ConversationalHandler[] = [
-    async function hass(input) {
+  const handlerMap = createHandlers({
+    hass: async (input) => {
       if (!ctx.hass) return skipped
       const result = await ctx.hass.connection.sendMessagePromise({
         type: 'conversation/process',
@@ -20,28 +22,34 @@ export const setupConversational: AppModule = async (ctx) => {
       if (matchError) return null
       return { text: result.response.speech.plain.speech }
     },
-    async function nlp(input) {
+    nlp: async (input) => {
       if (!ctx.nlp) return skipped
       const result = await ctx.nlp.process(input.text)
       if (!result?.intent || result.intent === 'None') return null
       return { text: result.intent }
     },
-    async function openai(input) {
+    openai: async (input) => {
       if (!ctx.openai) return skipped
       const result = await ctx.openai.chatGPT([{ role: 'user', content: input.text }])
       const answer = result?.choices?.[0]?.message?.content
       if (!answer) return null
       return { text: answer }
     },
-  ]
+  })
+  const handlers = Object.entries(handlerMap)
+  const possibleHandlers = Object.keys(handlerMap) as (keyof typeof handlerMap)[]
   ctx.inject('conversational', {
-    async process(input) {
+    async process(input, engines = possibleHandlers) {
       if (!input.text) {
         logger.debug('No text to process')
         return null
       }
-      for (const handler of handlers) {
+      for (const [key, handler] of handlers) {
         const log = logger.get(handler.name)
+        if (!engines.includes(key as keyof typeof handlerMap)) {
+          log.debug('Handler skipped manually')
+          continue
+        }
         log.debug('Processing input')
         const response = await handler(input)
         const hasResponse = !!response && response !== skipped

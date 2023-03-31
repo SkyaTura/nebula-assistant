@@ -7,7 +7,7 @@ export interface ConversationalResponse {
 }
 
 export interface ConversationalProcess {
-  (input: ConversationalRequest): Promise<ConversationalResponse | null>
+  (input: ConversationalRequest, engines?: string[]): Promise<ConversationalResponse | null>
 }
 
 export interface ConversationalModule {

@@ -6,7 +6,17 @@ import { NLP } from './types';
 
 export const setupNLP: AppModule = async (ctx) => {
   const log = ctx.logger('nlp')
-  const dock = await dockStart({ use: ['Basic', 'LangPt'] });
+  const logTrain = log.get('train')
+  const dock = await dockStart({
+    use: ['Basic', 'LangPt'],
+    settings: {
+      nlp: {
+        nlu: {
+          log: (status: string, time: number) => logTrain.debug('(%fms): %o', time, status)
+        }
+      }
+    }
+  });
   const nlp = dock.get('nlp');
   nlp.addLanguage('en');
   // Adds the utterances and intents for the NLP
