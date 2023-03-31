@@ -1,0 +1,36 @@
+{
+  "name": "assistant",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch \"src/**\" --ext \"ts,json\" --ignore \"src/**/*.spec.ts\" --exec \"ts-node --esm --experimental-specifier-resolution=node src/index.ts\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Skya Tura <antonio@skyatura.com.br>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/log": "^6.3.0",
+    "@types/node": "^18.15.11",
+    "@types/ws": "^8.5.4",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "@nlpjs/basic": "^4.26.1",
+    "@nlpjs/lang-pt": "^4.26.1",
+    "chalk": "^5.2.0",
+    "dotenv": "^16.0.3",
+    "home-assistant-js-websocket": "^8.0.1",
+    "log": "^6.3.1",
+    "log-node": "^8.0.3",
+    "node-nlp": "^4.26.1",
+    "openai": "^3.2.1",
+    "telegraf": "^4.12.2",
+    "ws": "^8.13.0"
+  }
+}
