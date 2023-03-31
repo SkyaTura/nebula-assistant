@@ -1,5 +1,4 @@
 import { Telegraf } from "telegraf";
-import * as TelegrafFilters from 'telegraf/filters'
 import { AppModule, BotContext } from "../types";
 import { setupHandlers } from "./handlers";
 

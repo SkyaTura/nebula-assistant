@@ -8,6 +8,7 @@ import { AppContext, AppModule } from "./types";
 import { setupTelegraf } from './telegraf';
 import { setupNLP } from './nlp';
 import { setupOpenAI } from './openai';
+import { setupConversational } from './conversational';
 
 export const setup = async (modules: AppModule[]) => {
   const ctx = {
@@ -28,6 +29,7 @@ export const main = async () => setup([
   setupHass,
   setupNLP,
   setupOpenAI,
+  setupConversational,
   setupTelegraf,
 ])
 

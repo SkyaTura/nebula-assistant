@@ -1,5 +1,6 @@
 import * as Logger from './logger/types'
 import * as Hass from './hass/types'
+import * as Conversational from './conversational/types'
 import * as OpenAI from './openai/types'
 import * as Telegraf from './telegraf/types'
 import { NLP } from './nlp/types'
@@ -23,6 +24,7 @@ export interface AppContext {
   logger: Logger.Logger
   nlp: NLP
   openai: OpenAI.OpenAIModule
+  conversational: Conversational.ConversationalModule
 }
 
 export interface BotContext extends Telegraf.Context {
